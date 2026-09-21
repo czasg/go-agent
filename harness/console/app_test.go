@@ -409,8 +409,8 @@ func TestApp_RunErrorDoesNotEndSession(t *testing.T) {
 	if len(renderer.errs) != 2 {
 		t.Fatalf("应上报 2 次错误, got %d", len(renderer.errs))
 	}
-	if renderer.errs[0] != wantErr {
-		t.Errorf("错误应原样透传, got %v", renderer.errs[0])
+	if renderer.errs[0].Error() != wantErr.Error() {
+		t.Errorf("错误信息应原样透传, got %v", renderer.errs[0])
 	}
 }
 

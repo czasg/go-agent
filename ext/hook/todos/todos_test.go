@@ -20,15 +20,15 @@ func TestOnIterationStart_InjectsTransient(t *testing.T) {
 	h.OnIterationStart(c)
 
 	msgs := store.Messages()
-	// 应有: system, user, assistant(transient)
+	// 应有: system, user, user(transient)
 	if len(msgs) != 3 {
 		t.Fatalf("expected 3 messages, got %d", len(msgs))
 	}
 	if !msgs[2].Transient {
 		t.Fatal("expected transient message")
 	}
-	if msgs[2].Role != schema.Assistant {
-		t.Fatalf("expected assistant, got %s", msgs[2].Role)
+	if msgs[2].Role != schema.User {
+		t.Fatalf("expected user, got %s", msgs[2].Role)
 	}
 }
 

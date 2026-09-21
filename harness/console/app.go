@@ -402,6 +402,13 @@ func (a *App) runTurn(ctx context.Context) (*ga.RunResult, error) {
 		a.renderer.OnError(err)
 		return res, err
 	default:
+		// RunLoop 把循环内部错误编码在 RunResult.Error 里（Go 返回值为 nil），
+		// 这里统一检查并转为 OnError，让渲染器能感知模型报错等异常。
+		if res != nil && res.Error != "" {
+			runErr := fmt.Errorf("%s", res.Error)
+			a.renderer.OnError(runErr)
+			return res, runErr
+		}
 		a.renderer.OnResult(res)
 		// 累计统计。
 		if res != nil {
